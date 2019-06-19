@@ -50,7 +50,8 @@ class Board():
         half_side_length = self.grid_side // 9
         (x, y) = self.square_center_coordinates[square]
         x = X(self.canvas, x, y, half_side_length)
-        self.XO_list[square] = x            
+        self.XO_list[square] = x
+              
     def clear(self):
         """Remove all X and O's."""
         del self.XO_list
