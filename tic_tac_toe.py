@@ -132,7 +132,7 @@ class X():
         self.canvas.delete(self.line_2)
     
     def color(self, color):
-        """Change the color of the O."""
+        """Change the color of the X."""
         self.canvas.itemconfig(self.line_1, fill=color)
         self.canvas.itemconfig(self.line_2, fill=color)
                                                                           
