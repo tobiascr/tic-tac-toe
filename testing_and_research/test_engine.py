@@ -76,7 +76,7 @@ def minimax_value_list(game_state, depth=10):
     """Return minimax values for each of the available moves in game_state.
     The values is returned in the form of a list of length 9, where the indices
     correspond to the moves and the values are the minimax values. For moves
-    that are not legal, the value None is given.        
+    that are not legal, the value None is given.
     """
     value_list = [None] * 9
         

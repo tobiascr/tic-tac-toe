@@ -38,7 +38,7 @@ class Board():
         self.canvas.create_line(p, p + s // 3, p + s, p + s // 3, width=2)
         self.canvas.create_line(p, p + 2 * s // 3, p + s, p + 2 * s // 3, width=2)
         self.canvas.create_line(p + s // 3, p, p + s // 3, p + s, width=2)
-        self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)
+        self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)        
         
     def add_O(self, square):           
         (x, y) = self.square_center_coordinates[square]
@@ -67,7 +67,7 @@ class Board():
 
     def resize(self, side_length):
         self.canvas.config(width=side_length, height=side_length)
-        self.canvas.delete("all")       
+        self.canvas.delete("all")
         self.grid_side = side_length - 2 * self.padding
         p = self.padding
         s = self.grid_side
@@ -172,6 +172,7 @@ def dialog_box(parent, text):
 
     def play(event=None):
         box.destroy()
+        update_difficulty_level()        
         new_game()
     def quit(event=None):
         root.destroy()
@@ -216,7 +217,7 @@ def dialog_box(parent, text):
     box.bind("<Return>", play)
     box.bind("<Escape>", quit)
     
-    # Call quit if the dialog box is closed.    
+    # Call quit if the dialog box is closed.
     box.protocol("WM_DELETE_WINDOW", quit)
     
     parent.wait_window(window=box)
@@ -249,6 +250,8 @@ def mouse_click(event):
         
     # If player win.
     if engine.three_in_a_row(game_state):
+        score[0] += 1
+        title_update()
         board.highlight_three_in_a_row()
         board.update()
         root.after(1000)
@@ -275,6 +278,8 @@ def mouse_click(event):
             
     # If computer win.
     if engine.three_in_a_row(game_state):
+        score[1] += 1
+        title_update()    
         board.highlight_three_in_a_row()
         board.update()
         root.after(1000)
@@ -297,7 +302,7 @@ def new_game():
     global game_state
     game_state = [" ", " ", " ",
                   " ", " ", " ",
-                  " ", " ", " "]     
+                  " ", " ", " "]   
     board.update()
         
     if not player_is_X:
@@ -308,40 +313,53 @@ def new_game():
 
     board.update() # Handle events before mouse rebind.
     board.rebind_mouse()
+
+def title_update():
+    root.title("Tic Tac Toe: " + str(score[0]) + " - " + str(score[1]))
     
-def set_difficulty_level(*args):
-    root.title("Tic Tac Toe - " + difficulty_level.get())
+def update_difficulty_level(*args):
+    """Update the difficulty level in the engine and reset score if
+    the level is changed."""
+    current_level = engine.difficulty_level
     if difficulty_level.get() == "Easy":
         engine.difficulty_level = 1
     elif difficulty_level.get() == "Medium":
         engine.difficulty_level = 2
     elif difficulty_level.get() == "Hard":
         engine.difficulty_level = 3
-           
+    if engine.difficulty_level != current_level:
+        global score
+        score = [0, 0]
+        title_update()
+
+def resize_root_window(event):
+    side = min(event.height, event.width)
+    board.resize(side)
+    
 engine = EngineInterface(2)
 
 game_state = [" ", " ", " ",
               " ", " ", " ",
               " ", " ", " "]
-
-def resize_root_window(event):
-    side = min(event.height, event.width)
-    board.resize(side)
    
 root = tk.Tk()
 root.minsize(width=100, height=100)
 root.aspect(1,1,1,1)
 
+score = [0, 0]
+title_update()
+
 difficulty_level = tk.StringVar()
-difficulty_level.trace("w", set_difficulty_level)
 difficulty_level.set("Medium")
 
 board = Board(root, 500)
 board.pack()
 
 # A variable to keep track of when player is X.
-player_is_X = True
+player_is_X = False
 
 root.bind("<Configure>", resize_root_window)
+root.update()
+dialog_box(root, "New game")
 
 root.mainloop()

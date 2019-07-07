@@ -133,7 +133,7 @@ class EngineInterface():
             # If last move.
             if number_of_moves == 8:
                 empty_square = game_state.index(" ")
-                return empty_square             
+                return empty_square           
 
             # If there is a winning move, return that move.
             move = random_winning_move(game_state)
@@ -151,7 +151,7 @@ class EngineInterface():
                 return random.choice(move_list)
 
             # Else return a random move.
-            return random_move(game_state)                              
+            return random_move(game_state)
                                             
         if self.difficulty_level == 3:
             number_of_moves = 9 - game_state.count(" ")
