@@ -177,6 +177,7 @@ def dialog_box(parent, text):
                
     box = tk.Toplevel(parent)
     box.grab_set()
+    box.focus_set()
     box.transient(parent)
     box.title("Tic Tac Toe")
     box_width = 300
