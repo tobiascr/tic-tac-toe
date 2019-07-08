@@ -108,7 +108,7 @@ class O():
     
     def __init__(self, canvas, x, y, radius, color="black"):
         self.canvas = canvas
-        # The circle is drawn in a box of odd length in order to look good.        
+        # The circle is drawn in a box of odd length in order to look good.      
         self.circle = self.canvas.create_oval(1 + x - radius, 1 + y - radius, x + radius, y + radius,
                                          width=2, outline=color)
     def __del__(self):
@@ -174,8 +174,6 @@ def dialog_box(parent, text):
         box.destroy()
         update_difficulty_level()        
         new_game()
-    def quit(event=None):
-        root.destroy()
                
     box = tk.Toplevel(parent)
     box.grab_set()
@@ -223,6 +221,9 @@ def dialog_box(parent, text):
     parent.wait_window(window=box)
           
 def mouse_click(event):
+
+    global score
+    global game_state
 
     def update_and_rebind_mouse():
         board.update() # Handle mouse events before the rebind.
@@ -317,7 +318,7 @@ def new_game():
 def title_update():
     root.title("Tic Tac Toe: " + str(score[0]) + " - " + str(score[1]))
     
-def update_difficulty_level(*args):
+def update_difficulty_level():
     """Update the difficulty level in the engine and reset score if
     the level is changed."""
     current_level = engine.difficulty_level
@@ -335,6 +336,10 @@ def update_difficulty_level(*args):
 def resize_root_window(event):
     side = min(event.height, event.width)
     board.resize(side)
+
+def quit(event=None):
+    board.clear()
+    root.destroy()
     
 engine = EngineInterface(2)
 
@@ -345,6 +350,9 @@ game_state = [" ", " ", " ",
 root = tk.Tk()
 root.minsize(width=100, height=100)
 root.aspect(1,1,1,1)
+
+# Call quit if the dialog box is closed.   
+root.protocol("WM_DELETE_WINDOW", quit)
 
 score = [0, 0]
 title_update()
