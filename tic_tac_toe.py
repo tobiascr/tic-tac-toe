@@ -334,10 +334,6 @@ def update_difficulty_level():
         score = [0, 0]
         title_update()
 
-def resize_root_window(event):
-    side = min(event.height, event.width)
-    board.resize(side)
-
 def quit(event=None):
     board.clear()
     root.destroy()
@@ -349,8 +345,7 @@ game_state = [" ", " ", " ",
               " ", " ", " "]
    
 root = tk.Tk()
-root.minsize(width=100, height=100)
-root.aspect(1,1,1,1)
+root.resizable(False, False)
 
 # Call quit if the dialog box is closed.   
 root.protocol("WM_DELETE_WINDOW", quit)
@@ -367,7 +362,6 @@ board.pack()
 # A variable to keep track of when player is X.
 player_is_X = False
 
-root.bind("<Configure>", resize_root_window)
 root.update()
 dialog_box(root, "New game")
 
