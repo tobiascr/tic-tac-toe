@@ -39,7 +39,7 @@ class Board():
         self.canvas.create_line(p, p + 2 * s // 3, p + s, p + 2 * s // 3, width=2)
         self.canvas.create_line(p + s // 3, p, p + s // 3, p + s, width=2)
         self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)        
-        
+                 
     def add_O(self, square):           
         (x, y) = self.square_center_coordinates[square]
         radius = self.grid_side // 9
