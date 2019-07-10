@@ -135,6 +135,7 @@ class X():
         """Change the color of the X."""
         self.canvas.itemconfig(self.line_1, fill=color)
         self.canvas.itemconfig(self.line_2, fill=color)
+
                                                                           
 def square_clicked(x, y):
     """Return the square 0-8 clicked given the coordinates x and y.
