@@ -220,7 +220,7 @@ def dialog_box(parent, text):
     # Call quit if the dialog box is closed.
     box.protocol("WM_DELETE_WINDOW", quit)
     
-    parent.wait_window(window=box)
+    parent.wait_window(window=box) # Wait for the dialog box to be destroyed.
           
 def mouse_click(event):
 
