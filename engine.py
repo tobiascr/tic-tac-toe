@@ -11,9 +11,9 @@ which place in the list.
      --- --- ---
     | 6 | 7 | 8 |
      --- --- ---
-    
+
 X is the first to move in each game.
-"""   
+"""
 
 # Facts about tic tac toe.
 # ------------------------
@@ -40,11 +40,11 @@ class EngineInterface():
         2 is intermediate and 3 is perfect play.
         """        
         self.difficulty_level = difficulty_level
-        
+
     def three_in_a_row(self, game_state):
         """Return True if X or O have three in a row and False otherwise."""
         return three_in_a_row(game_state)
-    
+
     def three_in_a_row_squares(self, game_state):
         """If there is a three in a row, return a list with it's corresponding squares.
         If there are several, only one is returned. If there is none, return None.
@@ -59,7 +59,7 @@ class EngineInterface():
             if [x[2],x[5],x[8]] == [n,n,n]: return [2, 5, 8]
             if [x[0],x[4],x[8]] == [n,n,n]: return [0, 4, 8]
             if [x[2],x[4],x[6]] == [n,n,n]: return [2, 4, 6]
-        
+
     def engine_move(self, game_state):
         """Return an integer from 0 to 8 that represents a move made
         by the engine."""
@@ -83,12 +83,12 @@ class EngineInterface():
                     if random.random() < 0.5:
                         return 4
                     else:
-                        return random_move(game_state)                                      
+                        return random_move(game_state)
 
             # If last move.
             if number_of_moves == 8:
                 empty_square = game_state.index(" ")
-                return empty_square             
+                return empty_square
 
             # If there is a winning move, return that move.
             move = random_winning_move(game_state)
@@ -97,20 +97,20 @@ class EngineInterface():
 
             # With some likelyhood, block the opponent from
             # making a three in a row.
-            move_list = blocking_move_list(game_state)                        
+            move_list = blocking_move_list(game_state)
             if len(move_list) == 1 and random.random() < 0.3:
                 return move_list[0]
-                
+
             # In there is a fork, block one of the three in a rows.
             if len(move_list) > 1:
                 return random.choice(move_list)
-                                                            
+
             # Else return a random move.
             return random_move(game_state)   
 
         if self.difficulty_level == 2:
             number_of_moves = 9 - game_state.count(" ")
-           
+
             # In the first move, all choices are equally good. But it is
             # natural to make a central move about a third of the times.
             if number_of_moves == 0:
@@ -128,44 +128,44 @@ class EngineInterface():
                     if random.random() < 0.5:
                         return 4
                     else:
-                        return random_move(game_state)                                      
+                        return random_move(game_state)
 
             # If last move.
             if number_of_moves == 8:
                 empty_square = game_state.index(" ")
-                return empty_square           
+                return empty_square
 
             # If there is a winning move, return that move.
             move = random_winning_move(game_state)
             if move != None:
                 return move
-                        
+
             # With some likelyhood, block the opponent from
             # making a three in a row.
-            move_list = blocking_move_list(game_state)                        
+            move_list = blocking_move_list(game_state)
             if len(move_list) == 1 and random.random() < 0.8:
                 return move_list[0]
-                
+
             # In there is a fork, block one of the three in a rows.
             if len(move_list) > 1:
                 return random.choice(move_list)
 
             # Else return a random move.
             return random_move(game_state)
-                                            
+
         if self.difficulty_level == 3:
             number_of_moves = 9 - game_state.count(" ")
-                    
+
             # In the first move, all choices are equally good. But it is
-            # natural to make a central move about a third of the times.                    
+            # natural to make a central move about a third of the times.
             if number_of_moves == 0:
                 if random.random() < 0.3:
                     return 4
-                else:                
-                    return random.randrange(9)        
-        
+                else:
+                    return random.randrange(9)
+
             return random_best_move(game_state)
-            
+
 
 def three_in_a_row(game_state):
     """Return True if X or O have three in a row and False otherwise."""
@@ -180,7 +180,7 @@ def three_in_a_row(game_state):
         if [x[0],x[4],x[8]] == [n,n,n]: return True
         if [x[2],x[4],x[6]] == [n,n,n]: return True
     return False
-            
+
 def random_move(game_state):
     "Return a random move 0-8 that is legal given game_state."         
     return random.choice([i for i in range(9) if game_state[i] == " "])
@@ -204,7 +204,7 @@ def random_winning_move(game_state):
             return move
         game_state[move] = " "
     return None
-    
+
 def blocking_move_list(game_state):
     """Return a list of moves that prevents the opponent of getting a three in a row
     in the next move."""
@@ -220,31 +220,31 @@ def blocking_move_list(game_state):
             move_list.append(move)
         game_state[move] = " "
     return move_list
-    
+
 def random_best_move(game_state):
     """Return a move that is randomly chosen from the best possible moves in the
     given game state.
     """
     number_of_moves = 9 - game_state.count(" ")
     book_key = "".join(game_state)
-            
+
     if number_of_moves == 0:
         # In the first move, all choices are equally good.
         return random.randrange(9)
     if number_of_moves == 1:
         return random.choice(book1[book_key])
     if number_of_moves == 2:
-        return random.choice(book2[book_key])                
+        return random.choice(book2[book_key])
     if number_of_moves == 3:
-        return random.choice(book3[book_key])                
+        return random.choice(book3[book_key])
     if number_of_moves == 4:
-        return random.choice(book4[book_key])                
+        return random.choice(book4[book_key])
     if number_of_moves == 5:
-        return random.choice(book5[book_key])                
+        return random.choice(book5[book_key])
     if number_of_moves == 6:
-        return random.choice(book6[book_key])                
+        return random.choice(book6[book_key])
     if number_of_moves == 7:
-        return random.choice(book7[book_key])                
+        return random.choice(book7[book_key])
     if number_of_moves == 8:
         empty_square = game_state.index(" ")
         return empty_square    

@@ -14,12 +14,12 @@ class Board():
      --- --- ---
     """    
     def __init__(self, parent, side_length):
-    
+
         self.canvas = tk.Canvas(parent, width=side_length, height=side_length,
                          highlightthickness=0)
         self.canvas.bind("<Button-1>", mouse_click)
         self.XO_list = [None for i in range(9)]
-                
+
         self.padding = 20
         self.grid_side = side_length - 2 * self.padding
         p = self.padding
@@ -39,24 +39,24 @@ class Board():
         self.canvas.create_line(p, p + 2 * s // 3, p + s, p + 2 * s // 3, width=2)
         self.canvas.create_line(p + s // 3, p, p + s // 3, p + s, width=2)
         self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)        
-                 
-    def add_O(self, square):           
+
+    def add_O(self, square):
         (x, y) = self.square_center_coordinates[square]
         radius = self.grid_side // 9
         o = O(self.canvas, x, y, radius)
         self.XO_list[square] = o
-        
+
     def add_X(self, square):
         half_side_length = self.grid_side // 9
         (x, y) = self.square_center_coordinates[square]
         x = X(self.canvas, x, y, half_side_length)
         self.XO_list[square] = x
-              
+
     def clear(self):
         """Remove all X and O's."""
         del self.XO_list
         self.XO_list = [None for i in range(9)]
-        
+
     def highlight_three_in_a_row(self):
         squares = engine.three_in_a_row_squares(game_state)
         for square in squares:
@@ -86,26 +86,26 @@ class Board():
         self.canvas.create_line(p, p + 2 * s // 3, p + s, p + 2 * s // 3, width=2)
         self.canvas.create_line(p + s // 3, p, p + s // 3, p + s, width=2)
         self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)
-        
+
         # Draw X's and O's.
         for square in range(9):
             if game_state[square] == "O":
                 self.add_O(square)        
             if game_state[square] == "X":
                 self.add_X(square)
-                        
+
     def update(self):
         self.canvas.update()
 
     def unbind_mouse(self):
         self.canvas.unbind("<Button-1>")
-        
+
     def rebind_mouse(self):
         self.canvas.bind("<Button-1>", mouse_click)
 
 
 class O():
-    
+
     def __init__(self, canvas, x, y, radius, color="black"):
         self.canvas = canvas
         # The circle is drawn in a box of odd length in order to look good.      
@@ -113,14 +113,14 @@ class O():
                                          width=2, outline=color)
     def __del__(self):
         self.canvas.delete(self.circle)
-            
+
     def color(self, color):
         """Change the color of the O."""
         self.canvas.itemconfig(self.circle, outline=color)
-                                         
+
 
 class X():
-    
+
     def __init__(self, canvas, x, y, half_side_length, color="black"):
         self.canvas = canvas
         h = half_side_length
@@ -130,13 +130,13 @@ class X():
     def __del__(self):
         self.canvas.delete(self.line_1)
         self.canvas.delete(self.line_2)
-    
+
     def color(self, color):
         """Change the color of the X."""
         self.canvas.itemconfig(self.line_1, fill=color)
         self.canvas.itemconfig(self.line_2, fill=color)
 
-                                                                          
+
 def square_clicked(x, y):
     """Return the square 0-8 clicked given the coordinates x and y.
     The squares numbering are as described in the engine module.
@@ -151,8 +151,8 @@ def square_clicked(x, y):
             return 1 
         elif 2 * side // 3 <= x <= side:
             return 2
-                        
-    elif side // 3 <= y <= 2 * side // 3:         
+
+    elif side // 3 <= y <= 2 * side // 3:
         if 0 <= x <= side // 3:
             return 3
         elif side // 3 <= x <= 2 * side // 3:
@@ -160,7 +160,7 @@ def square_clicked(x, y):
         elif 2 * side // 3 <= x <= side:
             return 5
 
-    elif 2 * side // 3 <= y <= side:         
+    elif 2 * side // 3 <= y <= side:
         if 0 <= x <= side // 3:
             return 6
         elif side // 3 <= x <= 2 * side // 3:
@@ -173,9 +173,9 @@ def dialog_box(parent, text):
 
     def play(event=None):
         box.destroy()
-        update_difficulty_level()        
+        update_difficulty_level()
         new_game()
-               
+
     box = tk.Toplevel(parent)
     box.grab_set()
     box.focus_set()
@@ -184,23 +184,23 @@ def dialog_box(parent, text):
     box_width = 300
     box_height = 120
 
-    parent_width = parent.winfo_width()        
+    parent_width = parent.winfo_width()
     parent_height = parent.winfo_height()
-        
+
     if box_width >= parent_width:
         x_offset = parent.winfo_rootx()
     else:
         x_offset = parent.winfo_rootx() + (parent_width - box_width) // 2
-        
+
     y_offset = parent.winfo_rooty() + (parent_height - box_height - 40) // 2
     if y_offset < parent.winfo_rooty():
         y_offset = parent.winfo_rooty()
-        
+
     box.geometry("%dx%d+%d+%d" % (box_width, box_height, x_offset, y_offset))
-    
+
     text = tk.Label(box, text=text, font=("", 11, "bold"), borderwidth=10)
     text.pack()
-    
+
     radio_button_frame = tk.Frame(master=box)
     tk.Radiobutton(radio_button_frame, text="Easy", font=("", 10),
                    variable=difficulty_level, value="Easy").pack(side=tk.LEFT)
@@ -209,19 +209,19 @@ def dialog_box(parent, text):
     tk.Radiobutton(radio_button_frame, text="Hard", font=("", 10),
                    variable=difficulty_level, value="Hard").pack()
     radio_button_frame.pack()
-    
+
     button_frame = tk.Frame(master=box, pady=10)
     button_frame.pack()
     tk.Button(button_frame, text="Play", font=("", 10), width=8, command=play).pack(side=tk.LEFT)
     tk.Button(button_frame, text="Quit", font=("", 10), width=8, command=quit).pack()    
     box.bind("<Return>", play)
     box.bind("<Escape>", quit)
-    
+
     # Call quit if the dialog box is closed.
     box.protocol("WM_DELETE_WINDOW", quit)
-    
+
     parent.wait_window(window=box) # Wait for the dialog box to be destroyed.
-          
+
 def mouse_click(event):
 
     global score
@@ -230,7 +230,7 @@ def mouse_click(event):
     def update_and_rebind_mouse():
         board.update() # Handle mouse events before the rebind.
         board.rebind_mouse()
-            
+
     board.unbind_mouse()
     square = square_clicked(event.x, event.y)
     if square == None:
@@ -241,16 +241,16 @@ def mouse_click(event):
     if game_state[square] != " ":
         update_and_rebind_mouse()
         return None
-    
+
     # Make the move.
-    if player_is_X:                                                                                                                                                           
+    if player_is_X:
         game_state[square] = "X"
         board.add_X(square)
     else:
         game_state[square] = "O"
         board.add_O(square)
     board.update()
-        
+
     # If player win.
     if engine.three_in_a_row(game_state):
         score[0] += 1
@@ -266,7 +266,7 @@ def mouse_click(event):
         root.after(600)
         dialog_box(root, "Draw")
         return
-        
+
     # Engine makes a move.
     if " " in game_state:
         root.after(300)
@@ -278,7 +278,7 @@ def mouse_click(event):
             game_state[square] = "X"
             board.add_X(square)
         board.update()
-            
+
     # If computer win.
     if engine.three_in_a_row(game_state):
         score[1] += 1
@@ -294,10 +294,10 @@ def mouse_click(event):
         root.after(600)
         dialog_box(root, "Draw")
         return
-    
+
     # Else.
     update_and_rebind_mouse()
-    
+
 def new_game():
     board.clear()
     global player_is_X
@@ -307,7 +307,7 @@ def new_game():
                   " ", " ", " ",
                   " ", " ", " "]   
     board.update()
-        
+
     if not player_is_X:
         root.after(300)
         square = engine.engine_move(game_state)
@@ -319,7 +319,7 @@ def new_game():
 
 def title_update():
     root.title("Tic Tac Toe: " + str(score[0]) + " - " + str(score[1]))
-    
+
 def update_difficulty_level():
     """Update the difficulty level in the engine and reset score if
     the level is changed."""
@@ -338,13 +338,13 @@ def update_difficulty_level():
 def quit(event=None):
     board.clear()
     root.destroy()
-    
+
 engine = EngineInterface(2)
 
 game_state = [" ", " ", " ",
               " ", " ", " ",
               " ", " ", " "]
-   
+
 root = tk.Tk()
 root.resizable(False, False)
 
