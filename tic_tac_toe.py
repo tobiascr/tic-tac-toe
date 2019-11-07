@@ -1,7 +1,6 @@
 
 import tkinter as tk
 from engine import EngineInterface
-import tkinter.messagebox
 
 class Board():
     """The squares on the board are numbered as in the diagram:
