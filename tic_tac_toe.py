@@ -37,7 +37,7 @@ class Board():
         self.canvas.create_line(p, p + s // 3, p + s, p + s // 3, width=2)
         self.canvas.create_line(p, p + 2 * s // 3, p + s, p + 2 * s // 3, width=2)
         self.canvas.create_line(p + s // 3, p, p + s // 3, p + s, width=2)
-        self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)        
+        self.canvas.create_line(p + 2 * s // 3, p, p + 2 * s // 3, p + s, width=2)
 
     def add_O(self, square):
         (x, y) = self.square_center_coordinates[square]
@@ -89,7 +89,7 @@ class Board():
         # Draw X's and O's.
         for square in range(9):
             if game_state[square] == "O":
-                self.add_O(square)        
+                self.add_O(square)
             if game_state[square] == "X":
                 self.add_X(square)
 
@@ -107,7 +107,7 @@ class O():
 
     def __init__(self, canvas, x, y, radius, color="black"):
         self.canvas = canvas
-        # The circle is drawn in a box of odd length in order to look good.      
+        # The circle is drawn in a box of odd length in order to look good.
         self.circle = self.canvas.create_oval(1 + x - radius, 1 + y - radius, x + radius, y + radius,
                                          width=2, outline=color)
     def __del__(self):
@@ -212,7 +212,7 @@ def dialog_box(parent, text):
     button_frame = tk.Frame(master=box, pady=10)
     button_frame.pack()
     tk.Button(button_frame, text="Play", font=("", 10), width=8, command=play).pack(side=tk.LEFT)
-    tk.Button(button_frame, text="Quit", font=("", 10), width=8, command=quit).pack()    
+    tk.Button(button_frame, text="Quit", font=("", 10), width=8, command=quit).pack()
     box.bind("<Return>", play)
     box.bind("<Escape>", quit)
 
@@ -257,7 +257,7 @@ def mouse_click(event):
         board.highlight_three_in_a_row()
         board.update()
         root.after(1000)
-        dialog_box(root, "You win! Congratulations!")     
+        dialog_box(root, "You win! Congratulations!")
         return
 
     # If draw.
@@ -281,7 +281,7 @@ def mouse_click(event):
     # If computer win.
     if engine.three_in_a_row(game_state):
         score[1] += 1
-        title_update()    
+        title_update()
         board.highlight_three_in_a_row()
         board.update()
         root.after(1000)
@@ -304,7 +304,7 @@ def new_game():
     global game_state
     game_state = [" ", " ", " ",
                   " ", " ", " ",
-                  " ", " ", " "]   
+                  " ", " ", " "]
     board.update()
 
     if not player_is_X:
@@ -347,7 +347,7 @@ game_state = [" ", " ", " ",
 root = tk.Tk()
 root.resizable(False, False)
 
-# Call quit if the dialog box is closed.   
+# Call quit if the dialog box is closed.
 root.protocol("WM_DELETE_WINDOW", quit)
 
 score = [0, 0]
