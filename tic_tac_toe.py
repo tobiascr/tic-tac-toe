@@ -139,7 +139,7 @@ class X():
 def square_clicked(x, y):
     """Return the square 0-8 clicked given the coordinates x and y.
     The squares numbering are as described in the engine module.
-    """    
+    """
     x = x - board.padding
     y = y - board.padding
     side = board.grid_side
