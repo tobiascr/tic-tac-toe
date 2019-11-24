@@ -16,9 +16,9 @@ which place in the list.
      --- --- ---
     | 6 | 7 | 8 |
      --- --- ---
-    
+
 X is the first to move in each game.
-"""    
+"""
 
 import random
 
@@ -79,7 +79,7 @@ def minimax_value_list(game_state, depth=10):
     that are not legal, the value None is given.
     """
     value_list = [None] * 9
-        
+
     if X_in_turn(game_state):
         for move in range(9):
             if game_state[move] == " ":
@@ -93,7 +93,7 @@ def minimax_value_list(game_state, depth=10):
                 value_list[move] = minimax(game_state, move, True, depth)
                 game_state[move] = " "
 
-    return value_list    
+    return value_list
 
 def minimax(game_state, last_move, maximizing_player_in_turn=True, depth=10):
     """Computes a value of game_state. Return >= 1 for a winning game_state for

@@ -11,9 +11,9 @@ which place in the list.
      --- --- ---
     | 6 | 7 | 8 |
      --- --- ---
-    
+
 X is the first to move in each game.
-"""   
+"""
 
 # Facts about tic tac toe.
 # ------------------------
@@ -180,7 +180,7 @@ def three_in_a_row(game_state):
         if [x[0],x[4],x[8]] == [n,n,n]: return True
         if [x[2],x[4],x[6]] == [n,n,n]: return True
     return False
-            
+
 def random_move(game_state):
     "Return a random move 0-8 that is legal given game_state."
     return random.choice([i for i in range(9) if game_state[i] == " "])
