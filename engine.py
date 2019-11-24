@@ -38,7 +38,7 @@ class EngineInterface():
     def __init__(self, difficulty_level):
         """difficulty_level can be 1, 2 or 3. 1 is easy.
         2 is intermediate and 3 is perfect play.
-        """        
+        """
         self.difficulty_level = difficulty_level
 
     def three_in_a_row(self, game_state):
@@ -67,12 +67,12 @@ class EngineInterface():
             number_of_moves = 9 - game_state.count(" ")
 
             # In the first move, all choices are equally good. But it is
-            # natural to make a central move about a third of the times.                    
+            # natural to make a central move about a third of the times.
             if number_of_moves == 0:
                 if random.random() < 0.3:
                     return 4
-                else:                
-                    return random.randrange(9)                 
+                else:
+                    return random.randrange(9)
 
             # If second move and the opponent made the first move in a corner.
             if number_of_moves == 1:
@@ -182,11 +182,11 @@ def three_in_a_row(game_state):
     return False
 
 def random_move(game_state):
-    "Return a random move 0-8 that is legal given game_state."         
+    "Return a random move 0-8 that is legal given game_state."
     return random.choice([i for i in range(9) if game_state[i] == " "])
 
 def player_to_move(game_state):
-    """Return "X" if it's X's turn to move, and "O" otherwise."""    
+    """Return "X" if it's X's turn to move, and "O" otherwise."""
     if game_state.count(" ") % 2 == 1:
         return "X"
     else:

@@ -27,9 +27,9 @@ class EngineInterface():
     def __init__(self, difficulty_level):
         """difficulty_level can be 1, 2 or 3. 1 is easy.
         2 is intermediate and 3 is perfect play.
-        """        
+        """
         self.difficulty_level = difficulty_level
-        
+
     def three_in_a_row(self, game_state):
         """Return true if X or O have three in a row and false otherwise."""
         x = game_state
@@ -43,7 +43,7 @@ class EngineInterface():
             if [x[0],x[4],x[8]] == [n,n,n]: return True
             if [x[2],x[4],x[6]] == [n,n,n]: return True
         return False
-        
+
     def engine_move(self, game_state):
         """Return an integer from 0 to 8 that represents a move made
         by the engine."""
@@ -51,14 +51,14 @@ class EngineInterface():
             return random_move(game_state)
         if self.difficulty_level == 2:
             return random_move(game_state)
-        if self.difficulty_level == 3:            
-            value_list = minimax_value_list(game_state)            
+        if self.difficulty_level == 3:
+            value_list = minimax_value_list(game_state)
             print(value_list[:3])
             print(value_list[3:6])
             print(value_list[6:])
             print()
             max_value = max([i for i in value_list if i != None])
-            min_value = min([i for i in value_list if i != None])            
+            min_value = min([i for i in value_list if i != None])
             if X_in_turn(game_state):
                 return random.choice([move for move in range(9) if value_list[move] == max_value])
             else:
@@ -69,7 +69,7 @@ def X_in_turn(game_state):
     return len([i for i in game_state if i == " "]) % 2 == 1
 
 def random_move(game_state):
-    "Return a random move 0-8 that is legal given game_state."         
+    "Return a random move 0-8 that is legal given game_state."
     return random.choice([i for i in range(9) if game_state[i] == " "])
 
 def minimax_value_list(game_state, depth=10):
@@ -82,19 +82,19 @@ def minimax_value_list(game_state, depth=10):
         
     if X_in_turn(game_state):
         for move in range(9):
-            if game_state[move] == " ":          
-                game_state[move] = "X"                
+            if game_state[move] == " ":
+                game_state[move] = "X"
                 value_list[move] = minimax(game_state, move, False, depth)
-                game_state[move] = " "               
+                game_state[move] = " "
     else:
         for move in range(9):
-            if game_state[move] == " ":            
+            if game_state[move] == " ":
                 game_state[move] = "O"
                 value_list[move] = minimax(game_state, move, True, depth)
                 game_state[move] = " "
 
     return value_list    
-    
+
 def minimax(game_state, last_move, maximizing_player_in_turn=True, depth=10):
     """Computes a value of game_state. Return >= 1 for a winning game_state for
     the maximizing player, 0 for a draw or unkowns outcome and <= -1 for a loss
@@ -112,14 +112,14 @@ def minimax(game_state, last_move, maximizing_player_in_turn=True, depth=10):
     # If the board is full and nobody have three in a row it's a draw.
     available_moves = [i for i in range(9) if game_state[i] == " "]
     if not available_moves:
-        return 0            
+        return 0
     # If unknown if the game state is winning, losing or drawing and return 0.
     if depth == 0:
         return 0
     # If not an endnode, try make moves and evaluate them recursively.
     if maximizing_player_in_turn:
         value = -1000
-        for move in available_moves:            
+        for move in available_moves:
             # Make a move.
             game_state[move] = "X"
             # Evaluate the move.
@@ -137,7 +137,7 @@ def minimax(game_state, last_move, maximizing_player_in_turn=True, depth=10):
             # Undo the move.
             game_state[move] = " "
         return value
-        
+
 def three_in_a_row(game_state, last_move):
     """Return true if X or O have three in a row in one of the
     rows that include last_move. Else return false."""    
@@ -183,4 +183,4 @@ def three_in_a_row(game_state, last_move):
         if game_state[8] == game_state[6] == game_state[7]: return True
         if game_state[8] == game_state[0] == game_state[4]: return True
 
-    return False        
+    return False
