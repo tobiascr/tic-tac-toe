@@ -2,7 +2,7 @@
 from engine import EngineInterface
 
 def draw_board(game_state):
-    for row in range(3):    
+    for row in range(3):
         print(" --- --- ---")
         for k in range(row*3,row*3+3):
             print("| ", end="")
@@ -10,7 +10,7 @@ def draw_board(game_state):
         print("|")
     print(" --- --- ---")
 
-if __name__ == "__main__":              
+if __name__ == "__main__":
     print()
     print("The squares are numbered as follows:")
     print()
@@ -26,24 +26,24 @@ if __name__ == "__main__":
     print()
     print("Print q to quit.")
     print()
-    
+
     exit_program = False
-    
+
     while True:
         answer = input("Difficulty level (1-3): ")
         if answer == "1" or answer == "2" or answer == "3":
             difficulty = int(answer)
-            engine = EngineInterface(difficulty)    
+            engine = EngineInterface(difficulty)
             print()
             break
         elif answer == "q":
-            exit_program = True           
+            exit_program = True
             break
-                
+
     game_state = [" ", " ", " ",
                   " ", " ", " ",
                   " ", " ", " "]
-    
+
     # Variables to keep track of number of winning games.
     player_wins = 0
     computer_wins = 0
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     # A variable to keep track of when it's X's turn to move.
     X_to_move = True
-        
+
     while not exit_program:
         # If computer is in turn.
         if (X_to_move and not player_is_X) or (not X_to_move and player_is_X):
@@ -63,14 +63,14 @@ if __name__ == "__main__":
                 game_state[engine.engine_move(game_state)] = "X"
             else:
                 game_state[engine.engine_move(game_state)] = "O"
-        # If player is in turn.                
+        # If player is in turn.
         else:
             while True:
                 if X_to_move:
                     choice = input("X to move: ")
                 else:
-                    choice = input("O to move: ")                
-                
+                    choice = input("O to move: ")
+
                 if choice in "012345678" and len(choice) == 1:
                     if game_state[int(choice)] == " ":
                         if X_to_move:
@@ -87,7 +87,7 @@ if __name__ == "__main__":
                     exit_program = True
                     break
         if exit_program: break
-        
+
         X_to_move = not X_to_move
 
         # Draw board if draw or players turn or somebody win.
@@ -97,7 +97,7 @@ if __name__ == "__main__":
             draw_board(game_state)
             print()
 
-        # If win.       
+        # If win.
         if engine.three_in_a_row(game_state):
             if (X_to_move and not player_is_X) or (not X_to_move and player_is_X):
                 print("You win. Congratulations!")
@@ -105,13 +105,13 @@ if __name__ == "__main__":
             else:
                 print("Computer win.")
                 computer_wins += 1
-            game_over = True             
+            game_over = True
 
         # If draw.
         elif " " not in game_state:
             print("Draw")
             game_over = True
-    
+
         if game_over:
             print()
             print("Player - Computer: " + str(player_wins) + " - " + str(computer_wins))
@@ -119,16 +119,16 @@ if __name__ == "__main__":
             while choice != "y" and choice != "n" and choice != "q":
                 print()
                 choice = input("Play again (y/n)? ")
-                
-            if choice == "y":            
+
+            if choice == "y":
                 game_over = False  
-                game_state=list(" "*9)    
-                player_is_X = not player_is_X            
+                game_state=list(" "*9)
+                player_is_X = not player_is_X
                 X_to_move = True
                 print()
                 if player_is_X:
                     draw_board(game_state)
-                    print()             
-                
-            if choice == "n" or choice == "q": break                      
+                    print()
+
+            if choice == "n" or choice == "q": break
 
