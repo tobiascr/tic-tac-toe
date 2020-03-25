@@ -1,6 +1,4 @@
 
-test
-
 Tic Tac Toe is programmed in Python 3.5.3 using the standard library.
 
 tic_tac_toe.py is the main program that runs the game with a
